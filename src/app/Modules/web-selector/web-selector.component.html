@@ -1,0 +1,16 @@
+<div class="main">
+  <div class="wrapper">
+    <h1>Mis webs</h1>
+    <app-loader *ngIf="loading"></app-loader>
+    <div *ngIf="!loading">
+      <div *ngFor="let web of websNames">
+        <mat-card appearance="outlined" (click)="goToWebManagment(web.id)">
+          <mat-card-content
+            ><span>{{ web.domain }}</span></mat-card-content
+          >
+        </mat-card>
+        <br />
+      </div>
+    </div>
+  </div>
+</div>

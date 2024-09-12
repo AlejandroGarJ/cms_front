@@ -1,0 +1,53 @@
+<div *ngFor="let item of data | keyvalue; trackBy: trackByFn">
+  <p>{{ item.key }}:</p>
+
+  <!-- Usa el método isArray para verificar si el valor es un array -->
+  <ng-container *ngIf="isArray(item.value)">
+    <button (click)="toggleVisibility(item.key)">
+      {{ isVisible[item.key] ? "Ocultar" : "Mostrar" }} {{ item.key }}
+    </button>
+
+    <ul *ngIf="isVisible[item.key]">
+      <li *ngFor="let subItem of item.value as subItemArray">
+        <app-recursive [data]="subItem" [listIsArray]="true"></app-recursive>
+      </li>
+    </ul>
+  </ng-container>
+
+  <!-- Usa el método isObject para verificar si el valor es un objeto -->
+  <ng-container *ngIf="isObject(item.value) && !isArray(item.value)">
+    <app-recursive [data]="item.value"></app-recursive>
+  </ng-container>
+
+  <!-- Muestra el valor si no es un objeto ni un array -->
+  <ng-container *ngIf="!isObject(item.value) && !isArray(item.value)">
+    @if (item.key === 'imagen') {
+    <input type="text " value="{{ item.value }}" [(ngModel)]="data[item.key]" />
+    } @else {
+    <mat-form-field class="example-full-width">
+      <mat-label>{{ item.key }}</mat-label>
+      <input
+        matInput
+        placeholder="{{ item.key }}"
+        value="{{ item.value }}"
+        [(ngModel)]="data[item.key]"
+      />
+    </mat-form-field>
+    <!--    <input type="text " value="{{ item.value }}" [(ngModel)]="data[item.key]" /> -->
+
+    }
+  </ng-container>
+
+  @if (isArray(item.value)) {
+  <button (click)="createObject(item)">Añadir {{ item.key }}</button>
+  }
+</div>
+<br />
+<div style="width: 200px"></div>
+<!-- Add new object to array -->
+<div *ngIf="addNewObjectToArray" class="modal">
+  <div class="modal-content">
+    <app-recursive [data]="auxObject"> </app-recursive>
+    <app-button [content]="'Crear'" (click)="createNewArrayItem()"></app-button>
+  </div>
+</div>

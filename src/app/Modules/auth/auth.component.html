@@ -1,0 +1,87 @@
+<div
+  class="main"
+  style="height: 100vh; max-height: fit-content; overflow-y: hidden"
+>
+  <!-- Login -->
+
+  <div class="form-box" *ngIf="login">
+    <div class="form">
+      <span class="title">Iniciar Sesión</span>
+      <div class="form-container">
+        <input
+          type="email"
+          class="input"
+          placeholder="Email"
+          [(ngModel)]="formBody.email"
+        />
+        <input
+          type="password"
+          class="input"
+          placeholder="Contraseña"
+          [(ngModel)]="formBody.password"
+        />
+      </div>
+
+      <app-button
+        [loading]="loading"
+        [content]="'Iniciar Sesión'"
+        (click)="signIn()"
+        >n</app-button
+      >
+    </div>
+    <div class="form-section">
+      <strong
+        ><p style="color: red">{{ emailErrorMessage }}</p></strong
+      >
+      <strong
+        ><p style="color: red">{{ passwordErrorMessage }}</p></strong
+      >
+      <p>
+        ¿No tienes cuenta?
+        <a class="href" (click)="login = false">Crear cuenta</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- Register -->
+  <div class="form-box" *ngIf="!login">
+    <div class="form">
+      <span class="title">Registrarse</span>
+      <div class="form-container">
+        <input
+          type="text"
+          class="input"
+          placeholder="Nombre"
+          [(ngModel)]="formBody.name"
+        />
+        <input
+          type="email"
+          class="input"
+          placeholder="Email"
+          [(ngModel)]="formBody.email"
+        />
+        <input
+          type="password"
+          class="input"
+          placeholder="Contraseña"
+          [(ngModel)]="formBody.password"
+        />
+      </div>
+      <app-button
+        [loading]="loading"
+        [content]="'Registrar'"
+        (click)="register()"
+        >Crear cuenta</app-button
+      >
+    </div>
+    <div class="form-section">
+      <strong
+        ><p style="color: red">{{ emailErrorMessage }}</p></strong
+      >
+      <p>
+        ¿Ya tienes cuenta?
+        <a class="href" (click)="login = true">Iniciar Sesión</a>
+      </p>
+    </div>
+  </div>
+</div>
