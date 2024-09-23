@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { environment } from '../../environment/environment';
+import { environment } from '../../../environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({

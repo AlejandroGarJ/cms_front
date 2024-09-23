@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { environment } from '../../environment/environment';
+import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
 
 export type WebName = {
