@@ -1,20 +1,83 @@
 <div *ngFor="let item of data | keyvalue; trackBy: trackByFn">
-  <p>{{ item.key }}:</p>
-
   <!-- Usa el método isArray para verificar si el valor es un array -->
-  <ng-container *ngIf="isArray(item.value)">
-    <button (click)="toggleVisibility(item.key)">
-      {{ isVisible[item.key] ? "Ocultar" : "Mostrar" }} {{ item.key }}
-    </button>
+  <mat-divider></mat-divider>
+  @if (isArray(item.value)) {
+  <ng-container>
+    <div class="treeTitleWrapper">
+      <mat-icon class="chevron" (click)="toggleVisibility(item.key)">
+        {{ isVisible[item.key] ? "expand_more" : "chevron_right" }}</mat-icon
+      >
 
+      <!--  <button (click)="toggleVisibility(item.key)">
+        {{ isVisible[item.key] ? "Ocultar" : "Mostrar" }} {{ item.key }}
+      </button> -->
+      <p>
+        <strong>{{ item.key }}:</strong>
+      </p>
+    </div>
+
+    @if(item.key === 'mensajes'){
+    <!-- Messages table -->
+
+    <table
+      *ngIf="isVisible[item.key]"
+      mat-table
+      [dataSource]="item.value"
+      class="mat-elevation-z8"
+    >
+      <!-- Email Column -->
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef>Email</th>
+        <td mat-cell *matCellDef="let message">{{ message.email }}</td>
+      </ng-container>
+
+      <!-- Nombre Column -->
+      <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef>Nombre</th>
+        <td mat-cell *matCellDef="let message">{{ message.nombre }}</td>
+      </ng-container>
+
+      <!-- Mensaje Column -->
+      <ng-container matColumnDef="mensaje">
+        <th mat-header-cell *matHeaderCellDef>Mensaje</th>
+        <td mat-cell *matCellDef="let message">{{ message.mensaje }}</td>
+      </ng-container>
+
+      <!-- Header and Row Declarations -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+
+    } @else {
     <ul *ngIf="isVisible[item.key]">
-      <li *ngFor="let subItem of item.value as subItemArray">
+      <li
+        *ngFor="let subItem of item.value as subItemArray; let i = index"
+        style="display: flex"
+      >
+        <div class="itemNumberContainer">
+          <app-delete-button (click)="delete(item, i)"></app-delete-button>
+        </div>
+
         <app-recursive [data]="subItem" [listIsArray]="true"></app-recursive>
+        <div class="verticalSeparator"></div>
       </li>
+      <div style="text-align: center">
+        <app-button
+          [class]="'secondary'"
+          (click)="createObject(item)"
+          [content]="'Añadir ' + item.key"
+        ></app-button>
+      </div>
     </ul>
+    }
   </ng-container>
 
+  } @else {
+  <p>{{ item.key }}:</p>
+  }
+
   <!-- Usa el método isObject para verificar si el valor es un objeto -->
+
   <ng-container *ngIf="isObject(item.value) && !isArray(item.value)">
     <app-recursive [data]="item.value"></app-recursive>
   </ng-container>
@@ -22,8 +85,14 @@
   <!-- Muestra el valor si no es un objeto ni un array -->
   <ng-container *ngIf="!isObject(item.value) && !isArray(item.value)">
     @if (item.key === 'imagen') {
-    <input type="text " value="{{ item.value }}" [(ngModel)]="data[item.key]" />
-    } @else {
+    <input
+      type="text"
+      placeholder="URL de imagen"
+      value="{{ item.value }} "
+      [(ngModel)]="data[item.key]"
+    />
+    }@else{
+
     <mat-form-field class="example-full-width">
       <mat-label>{{ item.key }}</mat-label>
       <input
@@ -34,13 +103,10 @@
       />
     </mat-form-field>
     <!--    <input type="text " value="{{ item.value }}" [(ngModel)]="data[item.key]" /> -->
-
     }
   </ng-container>
 
-  @if (isArray(item.value)) {
-  <button (click)="createObject(item)">Añadir {{ item.key }}</button>
-  }
+  @if (isArray(item.value) && isVisible[item.key]) { }
 </div>
 <br />
 <div style="width: 200px"></div>
@@ -48,6 +114,19 @@
 <div *ngIf="addNewObjectToArray" class="modal">
   <div class="modal-content">
     <app-recursive [data]="auxObject"> </app-recursive>
-    <app-button [content]="'Crear'" (click)="createNewArrayItem()"></app-button>
+    <app-button
+      [class]="'secondary green'"
+      [content]="'Crear'"
+      (click)="createNewArrayItem()"
+    ></app-button>
+  </div>
+</div>
+<div *ngIf="deleteModal" class="confirm-delete-modal">
+  <div class="confirm-delete-modal-content">
+    <h2>{{ deleteModalMessage }}</h2>
+    <app-button
+      [content]="'Confirmar'"
+      (click)="deleteModal = false"
+    ></app-button>
   </div>
 </div>

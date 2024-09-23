@@ -10,9 +10,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DeleteButtonComponent } from './delete-button/delete-button.component';
 
 @NgModule({
-  declarations: [LoaderComponent, ButtonComponent, InputImageComponent],
+  declarations: [
+    LoaderComponent,
+    ButtonComponent,
+    InputImageComponent,
+    DeleteButtonComponent,
+  ],
   imports: [
     CommonModule,
     MatButtonModule,
@@ -22,6 +28,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FormsModule,
     ReactiveFormsModule,
   ],
-  exports: [LoaderComponent, ButtonComponent, InputImageComponent],
+  exports: [
+    LoaderComponent,
+    ButtonComponent,
+    InputImageComponent,
+    DeleteButtonComponent,
+  ],
 })
 export class SharedModule {}

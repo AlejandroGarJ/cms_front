@@ -35,8 +35,8 @@ export class AuthComponent {
   ) {}
 
   signIn() {
-    this.loading = true;
     if (this.checkEmailFormat() && this.checkPassword()) {
+      this.loading = true;
       this.authService.login(this.formBody).subscribe((res) => {
         this.loading = false;
         if (res.response) {

@@ -15,7 +15,10 @@ export class RecursiveComponent {
   addNewObjectToArray: boolean = false;
   auxObject: any = {};
   auxArray: any[] = [];
+  deleteModal: boolean = false;
+  deleteModalMessage = '';
   @Input() listIsArray = false;
+  displayedColumns: string[] = ['email', 'nombre', 'mensaje'];
   isVisible: { [key: string]: boolean } = {};
 
   isObject(value: any): boolean {
@@ -34,7 +37,8 @@ export class RecursiveComponent {
     //Object.value is the array
     console.log(object.value[0]);
     this.auxArray = object.value;
-    this.auxObject = Object.assign({}, object.value[0]); //Duplicate the object
+    this.auxObject = structuredClone(object.value[0]); //Duplicate the object
+
     this.addNewObjectToArray = true;
   }
 
@@ -50,5 +54,17 @@ export class RecursiveComponent {
 
   trackByFn(index: any, item: any) {
     return index;
+  }
+
+  delete(item: any, index: number) {
+    //Item es el array
+
+    if (item.value.length === 1) {
+      this.deleteModal = true;
+      this.deleteModalMessage = 'No puedes dejar una lista de elementos vacia';
+    } else {
+      item.value.splice(index, 1);
+      console.log(item.value[index]);
+    }
   }
 }

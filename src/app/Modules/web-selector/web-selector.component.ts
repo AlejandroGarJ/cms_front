@@ -39,7 +39,7 @@ export class WebSelectorComponent {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${localStorage.getItem('jwt')}`,
     });
-
+    console.log('Hola');
     return this.http.post<any>(
       `${environment.apiUrl}/web/getWebsDomainByUser`,
       {},

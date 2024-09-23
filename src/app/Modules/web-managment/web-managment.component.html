@@ -1,4 +1,12 @@
 <div class="main">
+  <mat-divider></mat-divider>
+  <h1><strong>Gestiona tu web:</strong> {{ web["domain"] }}</h1>
   <app-recursive [data]="web['content']"> </app-recursive>
-  <app-button [content]="'Guardar'" (click)="save()"></app-button>
+  <br /><br />
+  <app-button
+    [loading]="loading"
+    [class]="'green'"
+    [content]="'Guardar cambios'"
+    (click)="save()"
+  ></app-button>
 </div>

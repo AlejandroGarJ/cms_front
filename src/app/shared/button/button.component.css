@@ -9,8 +9,18 @@ button {
   cursor: pointer;
   transition: background-color 0.3s ease;
   width: 100%;
+  margin: 0 auto;
 }
 
 button:hover {
   background-color: #005ce6;
+}
+
+.green {
+  background-color: green !important;
+}
+
+.secondary {
+  width: 70%;
+  margin: 0 auto;
 }
