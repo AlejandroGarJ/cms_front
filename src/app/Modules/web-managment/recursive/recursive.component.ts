@@ -67,4 +67,18 @@ export class RecursiveComponent {
       console.log(item.value[index]);
     }
   }
+
+  onFileChange(event: any, itemKey: any) {
+    console.log('Imagen antigua: ' + this.data[itemKey]);
+    const fileImage = event.target.files[0];
+    console.log(fileImage);
+
+    if (fileImage) {
+      const reader = new FileReader();
+      reader.readAsDataURL(fileImage);
+      reader.onload = () => {
+        this.data[itemKey] = reader.result as string;
+      };
+    }
+  }
 }

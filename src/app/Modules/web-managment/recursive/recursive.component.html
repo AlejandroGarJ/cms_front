@@ -49,6 +49,7 @@
     </table>
 
     } @else {
+
     <ul *ngIf="isVisible[item.key]">
       <li
         *ngFor="let subItem of item.value as subItemArray; let i = index"
@@ -86,11 +87,17 @@
   <ng-container *ngIf="!isObject(item.value) && !isArray(item.value)">
     @if (item.key === 'imagen') {
     <input
-      type="text"
+      type="file"
       placeholder="URL de imagen"
-      value="{{ item.value }} "
-      [(ngModel)]="data[item.key]"
+      (change)="onFileChange($event, item.key)"
     />
+    <div style="height: 100%; width: 100%">
+      <img
+        [src]="data[item.key]"
+        style="max-width: 100%; max-height: 300px; object-fit: contain"
+        alt=""
+      />
+    </div>
     }@else{
 
     <mat-form-field class="example-full-width">
